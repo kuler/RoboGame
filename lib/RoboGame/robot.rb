@@ -9,16 +9,15 @@ module RoboGame
 
     def initialize(board=Board.new)
       @board = board
-      @x, @y, @heading = 0, 0, :north
     end
 
     def report
-      [@x, @y, @heading]
+      on_board? ? [@x, @y, @heading] : :unknown
     end
 
     def place(x, y, heading)
 
-      heading = heading.to_sym if heading.is_a? String
+      heading = parse_heading heading
 
       @x, @y, @heading = x.to_i, y.to_i, heading if @board.field_available?(x, y) && HEADINGS.include?(heading)
 
@@ -26,6 +25,7 @@ module RoboGame
     end
 
     def forward
+      return self unless on_board?
 
       x, y = @x, @y
 
@@ -48,19 +48,35 @@ module RoboGame
     alias_method :move, :forward
 
     def left
-      @heading = headingIndex > 0 ? HEADINGS[headingIndex - 1] : HEADINGS.last
+      return self unless on_board?
+
+      @heading = heading_index > 0 ? HEADINGS[heading_index - 1] : HEADINGS.last
       return self
     end
 
     def right
-      @heading = headingIndex < HEADINGS.length-1 ? HEADINGS[headingIndex + 1] : HEADINGS.first
+      return self unless on_board?
+
+      @heading = heading_index < HEADINGS.length-1 ? HEADINGS[heading_index + 1] : HEADINGS.first
       return self
     end
 
     private
 
-    def headingIndex
+    def heading_index
       HEADINGS.index @heading
+    end
+
+    def on_board?
+      @x && @y && @heading
+    end
+
+    def parse_heading(heading)
+      if heading.is_a? String
+        heading = heading[1..-1] if heading[0]==':'
+        heading = heading.to_sym
+      end
+      heading
     end
 
   end
