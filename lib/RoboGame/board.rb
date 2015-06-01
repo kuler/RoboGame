@@ -1,20 +1,23 @@
-class Board
+module RoboGame
 
-  attr_accessor :width
-  attr_accessor :height
+  class Board
 
-  def initialize(width=5, height=width)
-    @width = width
-    @height = height
-  end
+    attr_accessor :width, :height
 
-  def field_available?(x,y)
-    x.is_a?(Numeric) && \
-    y.is_a?(Numeric) && \
-    x >= 0 && \
-    y >= 0 && \
-    x < @width && \
-    y < @height
+    def initialize(width=5, height=width)
+      @width = width
+      @height = height
+    end
+
+    def field_available?(x, y)
+      x.to_i.to_s == x.to_s && x.to_i.between?(0, @width-1) &&
+      y.to_i.to_s == y.to_s && y.to_i.between?(0, @height-1)
+    end
+
+    def to_s
+      "#{@width}x#{@height}"
+    end
+
   end
 
 end

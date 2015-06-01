@@ -1,4 +1,4 @@
 #!/usr/bin/env ruby
 
 require 'RoboGame'
-Base.new.run(ARGV)
+RoboGame::Console.new.run(ARGV)

@@ -7,6 +7,7 @@ describe Board do
   end
 
   it "#field_available?" do
+    @board.field_available?('1','1').must_equal true
     @board.field_available?(0,0).must_equal true
     @board.field_available?(4,4).must_equal true
     @board.field_available?(5,0).must_equal false

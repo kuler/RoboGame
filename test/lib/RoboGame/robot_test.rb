@@ -39,6 +39,10 @@ describe Robot do
       @robot
         .place(1, 1, :east)
         .report.must_equal [1, 1, :east]
+
+      @robot
+        .place("1", "2", "west")
+        .report.must_equal [1, 2, :west]
     end
 
   end
@@ -59,6 +63,13 @@ describe Robot do
       @robot
         .place('t', 0, :north)
         .report.must_equal @starting_position
+      @robot
+      .place(0.9, 0, :north)
+      .report.must_equal @starting_position
+
+      @robot
+      .place(nil, 0, :north)
+      .report.must_equal @starting_position
     end
 
     it 'won\'t accept invalid heading' do
